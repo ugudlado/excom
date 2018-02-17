@@ -8,7 +8,7 @@ class MeetingsController < ApplicationController
   end
 
   def next_active
-    @meetings = Meeting.all.take(1)
+    @meeting = Meeting.first
   end
 
   # GET /meetings/1
@@ -31,6 +31,12 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.new(meeting_params)
 
     respond_to do |format|
+      @role_player = RolePlayer.new
+      @role_player.member = Member.find(params['meeting']['member_id'])
+      @role_player.role = Role.find(params['meeting']['role_id'])
+      @role_player.meeting = @meeting
+      @role_player.save
+
       if @meeting.save
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
         format.json { render :show, status: :created, location: @meeting }
@@ -45,6 +51,18 @@ class MeetingsController < ApplicationController
   # PATCH/PUT /meetings/1.json
   def update
     respond_to do |format|
+      @member = Member.find(params['meeting']['member_id'])
+      @role_player = @meeting.role_players.find_by member: @member
+      if !@role_player
+        @role_player = RolePlayer.new
+        @role_player.meeting = @meeting         
+        @role_player.member =  @member
+      end
+      @role_player.role = Role.find_by id: params['meeting']['role_id']
+      @role_player.save
+      print @role_player.member.id
+      print @role_player.role.id
+
       if @meeting.update(meeting_params)
         format.html { redirect_to @meeting, notice: 'Meeting was successfully updated.' }
         format.json { render :show, status: :ok, location: @meeting }
