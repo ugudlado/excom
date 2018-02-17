@@ -2,5 +2,5 @@
 
 <%= render 'role_players', meeting: @meeting %>
 
-<%= link_to 'Edit', edit_meeting_path(@meeting) %> |
-<%= link_to 'Back', meetings_path %>
+<%= button_to 'Edit', edit_meeting_path(@meeting), :method => 'get', :class => "btn btn-primary" %>
+<%= button_to 'Back', meetings_path, :method => 'get', :class => "btn btn-default" %>

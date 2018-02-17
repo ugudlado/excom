@@ -2,8 +2,8 @@
 
 <h1>Members</h1>
 
-<table>
-  <thead>
+<div class="table-responsive">
+  <table class="table table-striped">
     <tr>
       <th>Name</th>
       <th>Email</th>
@@ -16,9 +16,9 @@
       <tr>
         <td><%= member.name %></td>
         <td><%= member.email %></td>
-        <td><%= link_to 'Show', member %></td>
-        <td><%= link_to 'Edit', edit_member_path(member) %></td>
-        <td><%= link_to 'Destroy', member, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Show', member, :method => 'get' ,:class => "btn btn-success" %></td>
+        <td><%= button_to 'Edit', edit_member_path(member), :method => 'get', :class => "btn btn-primary" %></td>
+        <td><%= button_to 'Destroy', member, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Member', new_member_path %>
+<%= button_to 'New Member', new_member_path, :method => 'get', :class => "btn btn-default" %>
