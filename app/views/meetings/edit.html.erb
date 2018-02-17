@@ -1,0 +1,6 @@
+<h1>Editing Meeting</h1>
+
+<%= render 'form', meeting: @meeting %>
+
+<%= button_to 'Show', @meeting, :method => 'get', :class => "btn btn-success" %>
+<%= button_to 'Back', meetings_path, :method => 'get', :class => "btn btn-default" %>
