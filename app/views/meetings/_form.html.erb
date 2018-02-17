@@ -19,12 +19,7 @@
   <%= form.collection_select(:member_id, Member.all, :id, :name) %>
   <%= form.collection_select(:role_id, Role.all, :id, :name) %>
 
-  <% meeting.role_players.each do |rp| %>
-    <tr>
-      <td><%= rp.member.name %></td>
-      <td><%= rp.role.name %></td>
-    </tr>
-  <% end %>
+  <%= render 'role_players', meeting: @meeting %>
 
   <div class="actions">
     <%= form.submit %>
