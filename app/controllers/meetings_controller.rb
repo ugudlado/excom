@@ -11,6 +11,33 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.first
   end
 
+  def vote
+    @meeting = Meeting.find(params['id'])
+    @member = Member.find(params['meeting']['member_id'])
+    @p_role_player = RolePlayer.find(params['prepared'])
+    @preparedvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@p_role_player.role
+    @preparedvoteResult = VoteResult.new if !@preparedvoteResult
+    @preparedvoteResult.meeting = @meeting
+    @preparedvoteResult.member = @member
+    @preparedvoteResult.role = @p_role_player.role
+    @preparedvoteResult.speaker = @p_role_player.member
+    @preparedvoteResult.save
+
+    @tt_role_player = RolePlayer.find(params['tt'])
+    @ttvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@tt_role_player.role
+    @ttvoteResult = VoteResult.new if !@ttvoteResult
+    @ttvoteResult.meeting = @meeting
+    @ttvoteResult.member = @member
+    @ttvoteResult.role = @tt_role_player.role
+    @ttvoteResult.speaker = @tt_role_player.member
+    @ttvoteResult.save
+
+    respond_to do |format|
+        format.html { redirect_to '/current', notice: 'Thanks for voting.' }
+        format.json { render '/current', status: :ok, location: @meeting }
+    end
+  end
+
   # GET /meetings/1
   # GET /meetings/1.json
   def show

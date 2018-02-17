@@ -5,4 +5,22 @@
 <b>Start date</b>
 <%= @meeting.start_date %>
 
-<%= render 'role_players', meeting: @meeting %>
+<%= form_with(model: @meeting, :url => {:action => 'vote', :id =>@meeting.id}, :html => {:method => "post"}, local: true) do |form| %>
+  <h3>Voter</h3>
+  <%= form.collection_select(:member_id, Member.all, :id, :name) %>
+
+  <h3>Prepared speakers</h3>
+  <% @meeting.role_players.select {|r| r.role.name == 'Prepared speaker'}.each do |rp| %>
+    <%= radio_button_tag 'prepared', rp.id %>
+    <%= label_tag rp.name %>
+  <% end %>
+
+  <h3>Table topic speakers</h3>
+  <% @meeting.role_players.select {|r| r.role.name == 'Table topic speaker'}.each do |rp| %>
+    <%= radio_button_tag 'tt', rp.id %>
+    <%= label_tag rp.name %>
+  <% end %>
+  <div class="actions">
+    <%= form.submit "Vote"%>
+  </div>
+<% end %>
