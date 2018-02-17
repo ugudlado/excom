@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Meetings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @meetings.each do |meeting| %>
+      <tr>
+        <td><%= meeting.start_date %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<br>Role Players</br>
