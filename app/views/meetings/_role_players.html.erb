@@ -4,14 +4,12 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Role</th>
       <tr>
     </thead>
     <tbody>
     <% @meeting.role_players.select {|r| r.role.name == 'Prepared speaker'}.each do |rp| %>
       <tr>
         <td><%= rp.member.name %></td>
-        <td><%= rp.role.name %></td>
       </tr>
     <% end %>
     </tbody>
@@ -22,14 +20,12 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Role</th>
     <tr>
   </thead>
   <tbody>
   <% @meeting.role_players.select {|r| r.role.name == 'Table topic speaker'}.each do |rp| %>
     <tr>
       <td><%= rp.member.name %></td>
-      <td><%= rp.role.name %></td>
     </tr>
   <% end %>
   </tbody>
