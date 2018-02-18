@@ -1,0 +1,7 @@
+<p id="notice"><%= notice %></p>
+
+<%= render 'role_players', meeting: @meeting %>
+<%= render 'feedback', meeting: @meeting %>
+
+<%= button_to 'Edit', edit_meeting_path(@meeting), :method => 'get', :class => "btn btn-primary" %>
+<%= button_to 'Back', meetings_path, :method => 'get', :class => "btn btn-default" %>

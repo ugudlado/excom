@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Meetings</h1>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Start date</th>
+        <th colspan="2" >Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @meetings.each do |meeting| %>
+        <tr>
+          <td><%= meeting.start_date %></td>
+          <td><%= button_to 'Show', meeting, :method => 'get' ,:class => "btn btn-success" %></td>
+          <td><%= button_to 'Edit', edit_meeting_path(meeting), :method => 'get', :class => "btn btn-primary" %></td>
+          <td><%= button_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= button_to 'New Meeting', new_meeting_path, :method => 'get', :class => "btn btn-primary" %>
