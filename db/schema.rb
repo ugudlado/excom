@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180217171535) do
+ActiveRecord::Schema.define(version: 20180218104124) do
+
+  create_table "feedback_notes", force: :cascade do |t|
+    t.integer "member_id"
+    t.integer "meeting_id"
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meeting_id"], name: "index_feedback_notes_on_meeting_id"
+    t.index ["member_id"], name: "index_feedback_notes_on_member_id"
+  end
 
   create_table "meetings", force: :cascade do |t|
     t.date "start_date"

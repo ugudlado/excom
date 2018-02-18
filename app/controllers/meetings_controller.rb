@@ -32,8 +32,17 @@ class MeetingsController < ApplicationController
     @ttvoteResult.speaker = @tt_role_player.member
     @ttvoteResult.save
 
+    if !params['feedback'].blank?
+      @feedback = FeedbackNote.find_by member: @member, meeting:@meeting
+      @feedback = FeedbackNote.new if !@feedback
+      @feedback.member = @member
+      @feedback.meeting = @meeting
+      @feedback.note = params['feedback']
+      @feedback.save
+    end
+
     respond_to do |format|
-        format.html { redirect_to '/current', notice: 'Thanks for voting.' }
+        format.html { redirect_to '/current', notice: 'Thanks for feedback.' }
         format.json { render '/current', status: :ok, location: @meeting }
     end
   end

@@ -20,6 +20,11 @@
     <%= radio_button_tag 'tt', rp.id %>
     <%= label_tag rp.name %>
   <% end %>
+
+  <h3>Feedback</h3>
+
+  <%= text_area_tag 'feedback' %>
+
   <div class="actions">
     <%= form.submit "Vote"%>
   </div>
