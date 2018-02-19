@@ -1,7 +1,16 @@
 <p id="notice"><%= notice %></p>
 
+<h3> <%= @meeting.start_date %> </h3>
+
+<h3> Role Players </h3>
+
 <%= render 'role_players', meeting: @meeting %>
-<%= render 'feedback', meeting: @meeting %>
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#feedback_panel" aria-expanded="false" aria-controls="collapseExample">
+    Show results
+</button>
 
 <%= button_to 'Edit', edit_meeting_path(@meeting), :method => 'get', :class => "btn btn-primary" %>
 <%= button_to 'Back', meetings_path, :method => 'get', :class => "btn btn-default" %>
+
+<%= render 'feedback', meeting: @meeting %>
