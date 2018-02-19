@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= locals[:title] %> </h3>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Vote count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% locals[:meeting].vote_results.joins(:speaker).joins(:role).group(["role_id","roles.name","speaker_id","members.name"]).order("role_id, COUNT(*) desc").count.select {|r| r[1] == locals[:role]}.each do |rp| %>
+            <tr>
+              <td><%= rp[0][3] %></td>
+              <td><%= rp[1] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>          
+    </div>
+  </div>
+</div>

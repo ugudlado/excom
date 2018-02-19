@@ -14,23 +14,41 @@ class MeetingsController < ApplicationController
   def vote
     @meeting = Meeting.find(params['id'])
     @member = Member.find(params['meeting']['member_id'])
-    @p_role_player = RolePlayer.find(params['prepared'])
-    @preparedvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@p_role_player.role
-    @preparedvoteResult = VoteResult.new if !@preparedvoteResult
-    @preparedvoteResult.meeting = @meeting
-    @preparedvoteResult.member = @member
-    @preparedvoteResult.role = @p_role_player.role
-    @preparedvoteResult.speaker = @p_role_player.member
-    @preparedvoteResult.save
+    if params['Prepared speaker']
+      @p_role_player = RolePlayer.find(params['Prepared speaker'])
+      @preparedvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@p_role_player.role
+      @preparedvoteResult = VoteResult.new if !@preparedvoteResult
+      @preparedvoteResult.meeting = @meeting
+      @preparedvoteResult.member = @member
+      @preparedvoteResult.role = @p_role_player.role
+      @preparedvoteResult.speaker = @p_role_player.member
+      @preparedvoteResult.vote = 1
+      @preparedvoteResult.save
+    end
 
-    @tt_role_player = RolePlayer.find(params['tt'])
-    @ttvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@tt_role_player.role
-    @ttvoteResult = VoteResult.new if !@ttvoteResult
-    @ttvoteResult.meeting = @meeting
-    @ttvoteResult.member = @member
-    @ttvoteResult.role = @tt_role_player.role
-    @ttvoteResult.speaker = @tt_role_player.member
-    @ttvoteResult.save
+    if params['Table topic speaker']
+      @tt_role_player = RolePlayer.find(params['Table topic speaker'])
+      @ttvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@tt_role_player.role
+      @ttvoteResult = VoteResult.new if !@ttvoteResult
+      @ttvoteResult.meeting = @meeting
+      @ttvoteResult.member = @member
+      @ttvoteResult.role = @tt_role_player.role
+      @ttvoteResult.speaker = @tt_role_player.member
+      @ttvoteResult.vote = 1
+      @ttvoteResult.save
+    end
+
+    if params['Evaluator']
+      @e_role_player = RolePlayer.find(params['Evaluator'])
+      @evoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@tt_role_player.role
+      @evoteResult = VoteResult.new if !@evoteResult
+      @evoteResult.meeting = @meeting
+      @evoteResult.member = @member
+      @evoteResult.role = @e_role_player.role
+      @evoteResult.speaker = @e_role_player.member
+      @evoteResult.vote = 1
+      @evoteResult.save
+    end
 
     if !params['feedback'].blank?
       @feedback = FeedbackNote.find_by member: @member, meeting:@meeting
@@ -41,9 +59,26 @@ class MeetingsController < ApplicationController
       @feedback.save
     end
 
+    @int_params = params.keys.select{|i| i.to_i if i.match(/^\d+$/)}
+    if @int_params.any?
+      @int_params.each do |rp| 
+        if params[rp]
+          @role_player = RolePlayer.find(rp)
+          @voteResult = VoteResult.find_by meeting: @meeting, member: @member, speaker:@role_player.member
+          @voteResult = VoteResult.new if !@voteResult
+          @voteResult.meeting = @meeting
+          @voteResult.member = @member
+          @voteResult.role = @role_player.role
+          @voteResult.speaker = @role_player.member
+          @voteResult.note = params[rp]
+          @voteResult.save
+        end
+      end
+    end
+
     respond_to do |format|
-        format.html { redirect_to '/current', notice: 'Thanks for feedback.' }
-        format.json { render '/current', status: :ok, location: @meeting }
+        format.html { redirect_to '/', notice: 'Thanks for feedback.' }
+        format.json { render '/', status: :ok, location: @meeting }
     end
   end
 
