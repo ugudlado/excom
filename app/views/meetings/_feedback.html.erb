@@ -1,59 +1,33 @@
+<div class="collapse" id="feedback_panel">
+    <h2>Results</h2>
 
-<h2>Results</h3>
-<div class="table-responsive">
-  <h3>Prepared speakers</h3>
-  <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Vote count</th>
-        <tr>
-    </thead>
-    <tbody>
-        <% @meeting.vote_results.joins(:speaker).joins(:role).group(["role_id","roles.name","speaker_id","members.name"]).order("role_id, COUNT(*) desc").count.select {|r| r[1] == 'Prepared speaker'}.each do |rp| %>
-        <tr>
-            <td><%= rp[0][3] %></td>
-            <td><%= rp[1] %></td>
-        </tr>
-        <% end %>
-    </tbody>
-  </table>
+    <%= render 'feedback_role', locals: {meeting: @meeting, title:'Prepared speakers', role: 'Prepared speaker'} %>
+    <%= render 'feedback_role', locals: {meeting: @meeting, title:'Table topic speakers', role: 'Table topic speaker'} %>
+    <%= render 'feedback_role', locals: {meeting: @meeting, title:'Evaluators', role: 'Evaluator'} %>
 
-    <h3>Table topic speakers</h3>
-    <table class="table table-striped">
-        <thead>
+    <h3> General feedback</h3>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
             <tr>
-            <th>Name</th>
-            <th>Vote count</th>
+                <th>Name</th>
+                <th>Feedback notes</th>
             <tr>
-        </thead>
-        <tbody>
-            <% @meeting.vote_results.joins(:speaker).joins(:role).group(["role_id","roles.name","speaker_id","members.name"]).order("role_id, COUNT(*) desc").count.select {|r| r[1] == 'Table topic speaker'}.each do |rp| %>
-                <tr>
-                <td><%= rp[0][3] %></td>
-                <td><%= rp[1] %></td>
-                </tr>
-            <% end %>
-        </tbody>
-    </table>
-</div>
-
-<h3> Feedback notes </h3>
-<div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Feedback notes</th>
-      <tr>
-    </thead>
-    <tbody>
-        <% @meeting.feedback_notes.each do |rp| %>
-            <tr>
-                <td><%= rp.member.name %></td>
-                <td><%= rp.note %></td>
-            </tr>
-        <% end %>
-    </tbody>
-  </table>
-</div>
+            </thead>
+            <tbody>
+                <% @meeting.feedback_notes.order('member_id').each do |rp| %>
+                    <tr>
+                        <td><%= rp.member.name %></td>
+                        <td><%= rp.note %></td>
+                    </tr>
+                <% end %>
+                <% @meeting.vote_results.order('speaker_id').each do |rp| %>
+                    <tr>
+                        <td><%= rp.speaker.name %></td>
+                        <td><%= rp.note %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+<div>

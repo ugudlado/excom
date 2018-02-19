@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= locals[:title] %> </h3>
+  </div>
+  <div class="panel-body">
+    <% locals[:meeting].role_players.select {|r| r.role.name == locals[:role]}.each do |rp| %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <span class="input-group-text"><%= rp.name %></span>
+            <%= radio_button_tag locals[:role], rp.id %>
+            <%= text_area_tag rp.id, nil, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

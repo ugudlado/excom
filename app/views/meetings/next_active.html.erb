@@ -9,20 +9,13 @@
   <h3>Voter</h3>
   <%= form.collection_select(:member_id, Member.all, :id, :name) %>
 
-  <h3>Prepared speakers</h3>
-  <% @meeting.role_players.select {|r| r.role.name == 'Prepared speaker'}.each do |rp| %>
-    <%= radio_button_tag 'prepared', rp.id %>
-    <%= label_tag rp.name %>
-  <% end %>
+  <%= render 'vote_panel', locals: {title: 'Prepared speakers',role: 'Prepared speaker',meeting: @meeting} %>
 
-  <h3>Table topic speakers</h3>
-  <% @meeting.role_players.select {|r| r.role.name == 'Table topic speaker'}.each do |rp| %>
-    <%= radio_button_tag 'tt', rp.id %>
-    <%= label_tag rp.name %>
-  <% end %>
+  <%= render 'vote_panel', locals: {title: 'Table topic speakers',role: 'Table topic speaker',meeting: @meeting} %>
 
-  <h3>Feedback</h3>
+  <%= render 'vote_panel', locals: {title: 'Evaluators',role: 'Evaluator',meeting: @meeting} %>
 
+  <h3>General Feedback</h3>
   <%= text_area_tag 'feedback' %>
 
   <div class="actions">

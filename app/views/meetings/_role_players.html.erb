@@ -1,33 +1,5 @@
-<div class="table-responsive">
-  <h3>Prepared speakers</h3>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-      <tr>
-    </thead>
-    <tbody>
-    <% @meeting.role_players.select {|r| r.role.name == 'Prepared speaker'}.each do |rp| %>
-      <tr>
-        <td><%= rp.member.name %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+<%= render 'role_panel', locals: {meeting: @meeting, title: 'Prepared speakers', role: 'Prepared speaker'} %>
 
-  <h3>Table topic speakers</h3>
-  <table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-    <tr>
-  </thead>
-  <tbody>
-  <% @meeting.role_players.select {|r| r.role.name == 'Table topic speaker'}.each do |rp| %>
-    <tr>
-      <td><%= rp.member.name %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-</div>
+<%= render 'role_panel', locals: {meeting: @meeting, title: 'Table topic speakers', role: 'Table topic speaker'} %>
+
+<%= render 'role_panel', locals: {meeting: @meeting, title: 'Evaluators',role: 'Evaluator'} %>
