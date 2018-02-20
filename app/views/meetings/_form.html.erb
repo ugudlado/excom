@@ -16,8 +16,8 @@
     <%= form.date_select :start_date, id: :meeting_start_date %>
   </div>
 
-  <%= form.collection_select(:member_id, Member.all, :id, :name) %>
-  <%= form.collection_select(:role_id, Role.all, :id, :name) %>
+  <%= form.collection_select(:member_id, Member.all.order(:name), :id, :name) %>
+  <%= form.collection_select(:role_id, Role.all.order(:name), :id, :name) %>
 
   <%= render 'role_players', meeting: @meeting %>
 
