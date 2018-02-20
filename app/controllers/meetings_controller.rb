@@ -62,7 +62,7 @@ class MeetingsController < ApplicationController
     @int_params = params.keys.select{|i| i.to_i if i.match(/^\d+$/)}
     if @int_params.any?
       @int_params.each do |rp| 
-        if params[rp]
+        if !params[rp].blank?
           @role_player = RolePlayer.find(rp)
           @voteResult = VoteResult.find_by meeting: @meeting, member: @member, speaker:@role_player.member
           @voteResult = VoteResult.new if !@voteResult
