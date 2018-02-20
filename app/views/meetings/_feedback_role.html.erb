@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody>
-          <% locals[:meeting].vote_results.joins(:speaker).joins(:role).group(["role_id","roles.name","speaker_id","members.name"]).order("role_id, COUNT(*) desc").count.select {|r| r[1] == locals[:role]}.each do |rp| %>
+          <% locals[:meeting].vote_results.joins(:speaker).joins(:role).where('vote_results.vote = 1').group(["role_id","roles.name","speaker_id","members.name"]).order("role_id, COUNT(*) desc").count.select {|r| r[1] == locals[:role]}.each do |rp| %>
             <tr>
               <td><%= rp[0][3] %></td>
               <td><%= rp[1] %></td>
