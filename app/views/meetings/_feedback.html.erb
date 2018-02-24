@@ -32,7 +32,7 @@
             <tr>
             </thead>
             <tbody>
-                <% @meeting.vote_results.order('speaker_id').each do |rp| %>
+                <% @meeting.vote_results.where("note != ''").order('speaker_id').each do |rp| %>
                     <tr>
                         <td><%= rp.speaker.name %></td>
                         <td><%= rp.note %></td>
