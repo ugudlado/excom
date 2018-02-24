@@ -7,7 +7,7 @@
 
 <%= form_with(model: @meeting, :url => {:action => 'vote', :id =>@meeting.id}, :html => {:method => "post"}, local: true) do |form| %>
   <h3>Voter</h3>
-  <%= form.collection_select(:member_id, Member.all.order(:name), :id, :name) %>
+  <%= form.collection_select(:member_id, Member.all.order(:name), :id, :name, {}, {:class => 'selectpicker', 'data-live-search' => 'true', 'title' =>"Choose one of the following..."}) %>
 
   <p/>
   <%= render 'vote_panel', locals: {title: 'Prepared speakers',role: 'Prepared speaker',meeting: @meeting} %>
