@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  resources :meetings, :path => 'admin/meetings' do
+  resources :meetings, :path => '/meetings' do
     member do
       post :vote
     end
   end
   
-  resources :members, :path => 'admin/members'
+  resources :members, :path => '/members'
 
   get  '/', to: 'meetings#next_active'
 
