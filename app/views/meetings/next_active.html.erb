@@ -1,12 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Meeting</h1>
-
-<b>Start date</b>
-<%= @meeting.start_date %>
+<h5>Meeting date: <%= @meeting.start_date %></h5> 
 
 <%= form_with(model: @meeting, :url => {:action => 'vote', :id =>@meeting.id}, :html => {:method => "post"}, local: true) do |form| %>
-  <h3>Voter</h3>
+  <h5>Voter</h5>
   <%= form.collection_select(:member_id, Member.all.order(:name), :id, :name, {}, {:class => 'selectpicker', 'data-live-search' => 'true', 'title' =>"Choose one of the following..."}) %>
 
   <p/>
@@ -16,8 +13,14 @@
 
   <%= render 'vote_panel', locals: {title: 'Evaluators',role: 'Evaluator',meeting: @meeting} %>
 
-  <h3>General Feedback</h3>
-  <%= text_area_tag 'feedback' %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">General Feedback</h3>
+    </div>
+    <div class="panel-body">
+      <%= text_area_tag 'feedback' %>
+    </div>
+  </div>
 
   <div class="actions">
     <%= form.submit "Vote"%>

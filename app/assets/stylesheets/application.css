@@ -13,3 +13,40 @@
  *= require_tree .
  *= require_self
  */
+div.panel,.panel-default {
+    margin: 20px 0;
+}
+
+div.input-group-text {
+    background: none;
+    /* border: none; */
+    width: 100%;
+}
+
+span.input-group-text{
+    font-size: larger;
+    background: transparent;
+    border: none;
+    width: 30%;
+} 
+
+div.input-group-text > input {
+    width: 10%;
+}
+
+div.input-group-prepend {
+    width: 100%;
+}
+
+div.panel > div.panel-heading {
+    background: gainsboro;
+}
+
+
+.navbar-brand{
+    font-size: xx-large;
+}
+
+.navbar-nav > li.nav-item > a.nav-link {
+    font-size: large;
+}
