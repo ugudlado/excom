@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     member do
       post :vote
     end
+    member do
+      get :activate
+    end
   end
   
   resources :members, :path => '/members'

@@ -18,6 +18,12 @@
           <td><%= meeting.start_date %></td>
           <td><%= button_to 'Show', meeting, :method => 'get' ,:class => "btn btn-success" %></td>
           <td><%= button_to 'Edit', edit_meeting_path(meeting), :method => 'get', :class => "btn btn-primary" %></td>
+          
+          <% if meeting.status == true %>
+            <td> Active </td>
+          <% else %>
+            <td><%= button_to 'Activate', activate_meeting_path(meeting), :method => 'get', :class => "btn btn-primary" %></td>
+          <% end %>
           <td><%= button_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
         </tr>
       <% end %>

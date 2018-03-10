@@ -8,7 +8,7 @@ class MeetingsController < ApplicationController
   end
 
   def next_active
-    @meeting = Meeting.first
+    @meeting = Meeting.where(:status => true).order(id: :desc).first
   end
 
   def vote
@@ -95,6 +95,18 @@ class MeetingsController < ApplicationController
 
   # GET /meetings/1/edit
   def edit
+  end
+
+  # GET /meetings/1/edit
+  def activate
+    Meeting.update_all status: false
+    @meeting = Meeting.find(params['id'])
+    @meeting.status = true
+    @meeting.save
+    respond_to do |format|
+      format.html { redirect_to meetings_url, notice: 'Meeting activated.' }
+      format.json { head :no_content }
+    end
   end
 
   # POST /meetings
