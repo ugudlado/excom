@@ -128,7 +128,7 @@ class MeetingsController < ApplicationController
       @role_player.save
 
       if @meeting.save
-        format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
+        format.html { redirect_to edit_meeting_path(@meeting), notice: 'Meeting was successfully created.' }
         format.json { render :show, status: :created, location: @meeting }
       else
         format.html { render :new }
@@ -154,7 +154,7 @@ class MeetingsController < ApplicationController
       print @role_player.role.id
 
       if @meeting.update(meeting_params)
-        format.html { redirect_to @meeting, notice: 'Meeting was successfully updated.' }
+        format.html { redirect_to edit_meeting_path(@meeting), notice: 'Meeting was successfully updated.' }
         format.json { render :show, status: :ok, location: @meeting }
       else
         format.html { render :edit }

@@ -25,14 +25,13 @@ $(document).ready(function(){
             $('#voter_id_msg').removeClass('red-voter');
             $('#voter_id_msg').addClass('green-voter');
             $('#voter_id_msg').text('Hello '+data.profile.name);
-            $('#voter_id_msg').append('We validated your id. ');
-            $('#voter_id_msg').append('Please give your feedback below.');
+            $('#voter_id_msg').append('. Please give your feedback below.');
             
         },
         error: function(data){
             $('#voter_id_msg').removeClass('green-voter');
             $('#voter_id_msg').addClass('red-voter');
-            $('#voter_id_msg').text('Invalid id. Please enter valid voter id');
+            $('#voter_id_msg').text('Invalid id. Please enter valid id');
         }
     });
     });
