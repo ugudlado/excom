@@ -8,12 +8,19 @@ class MeetingsController < ApplicationController
   end
 
   def next_active
-    @meeting = Meeting.first
+    @meeting = Meeting.where(:status => true).order(id: :desc).first
+  end
+
+  def validate_voter_id
+    @member = Member.find_by! email: params['voter_id']+'@advisory.com'
+
+    render :json => {profile: @member}
   end
 
   def vote
     @meeting = Meeting.find(params['id'])
-    @member = Member.find(params['meeting']['member_id'])
+    @member = Member.find_by email: params['voter_id']
+    
     if params['Prepared speaker']
       @p_role_player = RolePlayer.find(params['Prepared speaker'])
       @preparedvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@p_role_player.role
@@ -75,10 +82,9 @@ class MeetingsController < ApplicationController
         end
       end
     end
-
     respond_to do |format|
-        format.html { redirect_to '/', notice: 'Thanks for feedback.' }
-        format.json { render '/', status: :ok, location: @meeting }
+      format.html { redirect_to '/', notice: 'Thanks for feedback.' }
+      format.json { render '/', status: :ok, location: @meeting }
     end
   end
 
@@ -97,6 +103,18 @@ class MeetingsController < ApplicationController
   def edit
   end
 
+  # GET /meetings/1/edit
+  def activate
+    Meeting.update_all status: false
+    @meeting = Meeting.find(params['id'])
+    @meeting.status = true
+    @meeting.save
+    respond_to do |format|
+      format.html { redirect_to meetings_url, notice: 'Meeting activated.' }
+      format.json { head :no_content }
+    end
+  end
+
   # POST /meetings
   # POST /meetings.json
   def create
@@ -110,7 +128,7 @@ class MeetingsController < ApplicationController
       @role_player.save
 
       if @meeting.save
-        format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
+        format.html { redirect_to edit_meeting_path(@meeting), notice: 'Meeting was successfully created.' }
         format.json { render :show, status: :created, location: @meeting }
       else
         format.html { render :new }
@@ -136,7 +154,7 @@ class MeetingsController < ApplicationController
       print @role_player.role.id
 
       if @meeting.update(meeting_params)
-        format.html { redirect_to @meeting, notice: 'Meeting was successfully updated.' }
+        format.html { redirect_to edit_meeting_path(@meeting), notice: 'Meeting was successfully updated.' }
         format.json { render :show, status: :ok, location: @meeting }
       else
         format.html { render :edit }
@@ -148,7 +166,7 @@ class MeetingsController < ApplicationController
   # DELETE /meetings/1
   # DELETE /meetings/1.json
   def destroy
-    @meeting.destroy
+    # @meeting.destroy
     respond_to do |format|
       format.html { redirect_to meetings_url, notice: 'Meeting was successfully destroyed.' }
       format.json { head :no_content }

@@ -2,11 +2,12 @@
 
 <h1>Members</h1>
 
+<%= button_to 'New Member', new_member_path, :method => 'get', :class => "btn btn-primary" %>
+
 <div class="table-responsive">
   <table class="table table-striped">
     <tr>
       <th>Name</th>
-      <th>Email</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,7 +16,6 @@
     <% @members.each do |member| %>
       <tr>
         <td><%= member.name %></td>
-        <td><%= member.email %></td>
         <td><%= button_to 'Show', member, :method => 'get' ,:class => "btn btn-success" %></td>
         <td><%= button_to 'Edit', edit_member_path(member), :method => 'get', :class => "btn btn-primary" %></td>
         <td><%= button_to 'Destroy', member, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
@@ -23,7 +23,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= button_to 'New Member', new_member_path, :method => 'get', :class => "btn btn-default" %>

@@ -13,3 +13,59 @@
  *= require_tree .
  *= require_self
  */
+ 
+div.panel.panel-default {
+    margin: 20px 0;
+}
+
+div.input-group-text {
+    background: none;
+    width: 100%;
+}
+
+span.input-group-text{
+    font-size: large;
+    background: transparent;
+} 
+
+/* div.input-group-text > input {
+    width: 10%;
+}
+
+div.input-group-prepend {
+    width: 100%;
+} */
+
+div.panel-heading {
+    background: gainsboro;
+}
+
+h3.panel-title{
+    font-size: x-large;
+}
+
+.navbar-brand{
+    font-size: xx-large;
+}
+
+a.nav-link {
+    font-size: large;
+}
+
+.green-voter{
+    font-size: larger;
+    color: green;
+}
+
+.red-voter{
+    font-size: larger;
+    color: red;
+}
+
+.vote-panel {
+    margin: 25px 0;
+}
+
+.label-text{
+    font-size: large;
+}
