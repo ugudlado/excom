@@ -11,9 +11,16 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.where(:status => true).order(id: :desc).first
   end
 
+  def validate_voter_id
+    @member = Member.find_by! email: params['voter_id']+'@advisory.com'
+
+    render :json => {profile: @member}
+  end
+
   def vote
     @meeting = Meeting.find(params['id'])
-    @member = Member.find(params['meeting']['member_id'])
+    @member = Member.find_by email: params['voter_id']
+    
     if params['Prepared speaker']
       @p_role_player = RolePlayer.find(params['Prepared speaker'])
       @preparedvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@p_role_player.role
@@ -75,10 +82,9 @@ class MeetingsController < ApplicationController
         end
       end
     end
-
     respond_to do |format|
-        format.html { redirect_to '/', notice: 'Thanks for feedback.' }
-        format.json { render '/', status: :ok, location: @meeting }
+      format.html { redirect_to '/', notice: 'Thanks for feedback.' }
+      format.json { render '/', status: :ok, location: @meeting }
     end
   end
 

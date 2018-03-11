@@ -3,7 +3,8 @@
 <h5>Meeting date: <%= @meeting.start_date %></h5> 
 
 <%= form_with(model: @meeting, :url => {:action => 'vote', :id =>@meeting.id}, :html => {:method => "post"}, local: true) do |form| %>
-  <h5>Voter</h5>
+  <h5>Voter id</h5> <%= text_field_tag 'voter_id' %> 
+  <%= label_tag nil, nil,{id: 'voter_id_msg'} %>
   <%= form.collection_select(:member_id, Member.all.order(:name), :id, :name, {}, {:class => 'selectpicker', 'data-live-search' => 'true', 'title' =>"Choose one of the following..."}) %>
 
   <p/>

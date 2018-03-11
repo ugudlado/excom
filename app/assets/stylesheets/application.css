@@ -50,3 +50,13 @@ div.panel > div.panel-heading {
 .navbar-nav > li.nav-item > a.nav-link {
     font-size: large;
 }
+
+.green-voter{
+    font-size: larger;
+    color: green;
+}
+
+.red-voter{
+    font-size: larger;
+    color: red;
+}
