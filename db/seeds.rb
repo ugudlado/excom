@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+role_names = [
+    'Prepared speaker',
+    'Table topic speaker',
+    'Evaluator'
+]
+
+role_names.each{ |role| Role.create({name: role})}
