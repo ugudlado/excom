@@ -9,12 +9,15 @@
 ```
 bundle install
 rake db:migrate
+rake db:seed
 ```
 
 ## Running app
 ```
 rails s
 ```
+
+**Note**: Open url as mentioned in logs
 
 ## Deploying heroku
 ```
