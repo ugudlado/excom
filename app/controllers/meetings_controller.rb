@@ -12,58 +12,36 @@ class MeetingsController < ApplicationController
   end
 
   def validate_voter_id
-    @member = Member.find_by! email: params['voter_id']+'@advisory.com'
+    @member = Member.find_by! email: params['voter_id']
 
     render :json => {profile: @member}
   end
 
   def vote
     @meeting = Meeting.find(params['id'])
-    @member = Member.find_by email: params['voter_id']+'@advisory.com'
+    @member = Member.find_by email: params['voter_id']
 
     @msg = 'Please enter valid voter id'
     if @member
       if params['Prepared speaker']
-        @p_role_player = RolePlayer.find(params['Prepared speaker'])
-        @preparedvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@p_role_player.role
-        @preparedvoteResult = VoteResult.new if !@preparedvoteResult
-        @preparedvoteResult.meeting = @meeting
-        @preparedvoteResult.member = @member
-        @preparedvoteResult.role = @p_role_player.role
-        @preparedvoteResult.speaker = @p_role_player.member
-        @preparedvoteResult.vote = 1
-        @preparedvoteResult.save
+        save_vote_result @meeting, @member, 'Prepared speaker'
       end
 
       if params['Table topic speaker']
-        @tt_role_player = RolePlayer.find(params['Table topic speaker'])
-        @ttvoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@tt_role_player.role
-        @ttvoteResult = VoteResult.new if !@ttvoteResult
-        @ttvoteResult.meeting = @meeting
-        @ttvoteResult.member = @member
-        @ttvoteResult.role = @tt_role_player.role
-        @ttvoteResult.speaker = @tt_role_player.member
-        @ttvoteResult.vote = 1
-        @ttvoteResult.save
+        save_vote_result @meeting, @member, 'Table topic speaker'
       end
 
       if params['Evaluator']
-        @e_role_player = RolePlayer.find(params['Evaluator'])
-        @evoteResult = VoteResult.find_by meeting: @meeting, member: @member, role:@tt_role_player.role
-        @evoteResult = VoteResult.new if !@evoteResult
-        @evoteResult.meeting = @meeting
-        @evoteResult.member = @member
-        @evoteResult.role = @e_role_player.role
-        @evoteResult.speaker = @e_role_player.member
-        @evoteResult.vote = 1
-        @evoteResult.save
+        save_vote_result @meeting, @member, 'Evaluator'
       end
 
       if !params['feedback'].blank?
         @feedback = FeedbackNote.find_by member: @member, meeting:@meeting
-        @feedback = FeedbackNote.new if !@feedback
-        @feedback.member = @member
-        @feedback.meeting = @meeting
+        if !@feedback
+          @feedback = FeedbackNote.new 
+          @feedback.member = @member
+          @feedback.meeting = @meeting
+        end
         @feedback.note = params['feedback']
         @feedback.save
       end
@@ -74,11 +52,13 @@ class MeetingsController < ApplicationController
           if !params[rp].blank?
             @role_player = RolePlayer.find(rp)
             @voteResult = VoteResult.find_by meeting: @meeting, member: @member, speaker:@role_player.member
-            @voteResult = VoteResult.new if !@voteResult
-            @voteResult.meeting = @meeting
-            @voteResult.member = @member
-            @voteResult.role = @role_player.role
-            @voteResult.speaker = @role_player.member
+            if !@voteResult
+              @voteResult = VoteResult.new 
+              @voteResult.meeting = @meeting
+              @voteResult.member = @member
+              @voteResult.role = @role_player.role
+              @voteResult.speaker = @role_player.member
+            end
             @voteResult.note = params[rp]
             @voteResult.save
           end
@@ -92,6 +72,19 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def save_vote_result(meeting, member, role) 
+    @tt_role_player = RolePlayer.find(params[role])
+    @ttvoteResult = VoteResult.find_by meeting: meeting, member: member, role:@tt_role_player.role
+    if !@ttvoteResult
+      @ttvoteResult = VoteResult.new 
+      @ttvoteResult.meeting = meeting
+      @ttvoteResult.member = member
+      @ttvoteResult.role = @tt_role_player.role
+      @ttvoteResult.vote = 1
+    end
+    @ttvoteResult.speaker = @tt_role_player.member
+    @ttvoteResult.save
+  end
 
   # GET /meetings/1
   # GET /meetings/1.json
