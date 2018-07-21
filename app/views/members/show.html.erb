@@ -10,5 +10,10 @@
   <%= @member.email %>
 </p>
 
+<p>
+  <strong>Status:</strong>
+  <%= @member.status ? 'Active' : 'Inactive' %>
+</p>
+
 <%= button_to 'Edit', edit_member_path(@member), :method => 'get', :class => "btn btn-primary" %>
 <%= button_to 'Back', members_path, :method => 'get', :class => "btn btn-default" %>

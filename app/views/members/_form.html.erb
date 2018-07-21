@@ -21,6 +21,16 @@
     <%= form.text_field :email, id: :member_email %>
   </div>
 
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.password_field :password, id: :member_password %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.check_box :status, id: :member_status %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
