@@ -43,15 +43,17 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-              <li> <a class="nav-link" href="/">Home</a> </li>
-              <li> <a class="nav-link" href="/members">Members</a> </li>
-              <!--
-              <li> <a class="nav-link" href="/meetings">Meetings</a> </li>
-              <li> <a class="nav-link" href="/settings">Settings</a> </li>
-              -->
+              <% if member_signed_in? %>
+                <li> 
+                  <a class="nav-link" href="/members/edit">Settings</a> 
+                </li>
+                <li>
+                  <%= link_to('Logout', destroy_member_session_path, method: :delete, class:"nav-link") %>        
+                </li>
+              <% end %>
           </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
+        </div>
+      </div>
     </nav>
 
     <%= yield %>

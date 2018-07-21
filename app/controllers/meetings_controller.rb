@@ -1,4 +1,5 @@
 class MeetingsController < ApplicationController
+  before_action :authenticate_member!
   before_action :set_meeting, only: [:show, :edit, :update, :destroy]
 
   # GET /meetings
@@ -11,15 +12,9 @@ class MeetingsController < ApplicationController
     @meeting = Meeting.where(:status => true).order(id: :desc).first
   end
 
-  def validate_voter_id
-    @member = Member.find_by! email: params['voter_id']
-
-    render :json => {profile: @member}
-  end
-
   def vote
     @meeting = Meeting.find(params['id'])
-    @member = Member.find_by email: params['voter_id']
+    @member = current_member
 
     @msg = 'Please enter valid voter id'
     if @member
