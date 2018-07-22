@@ -16,8 +16,12 @@
     <%= form.date_select :start_date, id: :meeting_start_date %>
   </div>
 
-  <%= form.collection_select(:member_id, Member.all.order(:name), :id, :name, {}, {:class => 'selectpicker', 'data-live-search' => 'true', 'title' =>"Choose one of the following..."}) %>
-  <%= form.collection_select(:role_id, Role.all.order(:name), :id, :name) %>
+  <%= form.collection_select(:member_id, Member.where(status: 1).order(:name), :id, :name, {}, {:class => 'selectpicker', 'data-live-search' => 'true', 'title' =>"Choose one of the following..."}) %>
+
+    <% Role.all.order(:name).each do |rp| %>
+    <%= form.radio_button 'role_id', rp.id %>
+    <%= rp.name %>
+  <% end %>
   
   <%= form.submit %>
   

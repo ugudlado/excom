@@ -2,27 +2,23 @@
 
 <%= form_with(model: @meeting, :url => {:action => 'vote', :id =>@meeting.id}, :html => {:method => "post"}, local: true) do |form| %>
   
-  <h4>Meeting date: <%= @meeting.start_date %></h4> 
+  <h4>Hello <%= current_member.name %>! <h4>
 
-  <div class='vote-panel'>
-    <span class='label-text'>Voter id</span> 
-    <%= text_field_tag 'voter_id' %> 
-    <%= label_tag nil, nil,{id: 'voter_id_msg'} %>
-  </div>  
+  <h3>Meeting date: <%= @meeting.start_date %></h3> 
 
   <p/>
-  <%= render 'vote_panel', locals: {title: 'Prepared speakers',role: 'Prepared speaker',meeting: @meeting} %>
+  <%= render 'vote_panel', locals: {title: 'Prepared speakers',role: 'Prepared speaker',meeting: @meeting, results:@prepared_vote_results} %>
 
-  <%= render 'vote_panel', locals: {title: 'Table topic speakers',role: 'Table topic speaker',meeting: @meeting} %>
+  <%= render 'vote_panel', locals: {title: 'Table topic speakers',role: 'Table topic speaker',meeting: @meeting, results:@tt_vote_results} %>
 
-  <%= render 'vote_panel', locals: {title: 'Evaluators',role: 'Evaluator',meeting: @meeting} %>
+  <%= render 'vote_panel', locals: {title: 'Evaluators',role: 'Evaluator',meeting: @meeting, results:@eval_vote_results} %>
 
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">General Feedback</h3>
     </div>
     <div class="panel-body">
-      <%= text_area_tag 'feedback' %>
+      <%= text_area_tag 'feedback', @general_feedback.note %>
     </div>
   </div>
 
