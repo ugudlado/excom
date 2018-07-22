@@ -10,6 +10,10 @@ class MeetingsController < ApplicationController
 
   def next_active
     @meeting = Meeting.where(:status => true).order(id: :desc).first
+    @prepared_vote_results = VoteResult.where member:current_member, meeting:@meeting, role: Role.find_by(name:'Prepared speaker')
+    @tt_vote_results = VoteResult.where member:current_member, meeting:@meeting, role: Role.find_by(name:'Table topic speaker')
+    @eval_vote_results = VoteResult.where member:current_member, meeting:@meeting, role: Role.find_by(name:'Evaluator')
+    @general_feedback =  FeedbackNote.find_by member: current_member, meeting:@meeting
   end
 
   def vote
@@ -46,7 +50,7 @@ class MeetingsController < ApplicationController
         @int_params.each do |rp| 
           if !params[rp].blank?
             @role_player = RolePlayer.find(rp)
-            @voteResult = VoteResult.find_by meeting: @meeting, member: @member, speaker:@role_player.member
+            @voteResult = VoteResult.find_by meeting: @meeting, member: @member,role: @role_player.role, speaker:@role_player.member
             if !@voteResult
               @voteResult = VoteResult.new 
               @voteResult.meeting = @meeting
@@ -69,16 +73,20 @@ class MeetingsController < ApplicationController
 
   def save_vote_result(meeting, member, role) 
     @tt_role_player = RolePlayer.find(params[role])
-    @ttvoteResult = VoteResult.find_by meeting: meeting, member: member, role:@tt_role_player.role
-    if !@ttvoteResult
-      @ttvoteResult = VoteResult.new 
-      @ttvoteResult.meeting = meeting
-      @ttvoteResult.member = member
-      @ttvoteResult.role = @tt_role_player.role
-      @ttvoteResult.vote = 1
+    @ttvoteResult = VoteResult.where meeting: meeting, member: member, role:@tt_role_player.role
+    if !@ttvoteResult.any?
+      @result = VoteResult.new 
+      @result.meeting = meeting
+      @result.member = member
+      @result.vote = 1
+      @result.role = @tt_role_player.role
+      @result.save
+    else
+      @ttvoteResult.each do |t|
+        t.vote = t.speaker == @tt_role_player.member ? 1 : 0;
+        t.save
+      end
     end
-    @ttvoteResult.speaker = @tt_role_player.member
-    @ttvoteResult.save
   end
 
   # GET /meetings/1

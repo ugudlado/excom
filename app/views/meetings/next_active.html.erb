@@ -7,18 +7,18 @@
   <h3>Meeting date: <%= @meeting.start_date %></h3> 
 
   <p/>
-  <%= render 'vote_panel', locals: {title: 'Prepared speakers',role: 'Prepared speaker',meeting: @meeting} %>
+  <%= render 'vote_panel', locals: {title: 'Prepared speakers',role: 'Prepared speaker',meeting: @meeting, results:@prepared_vote_results} %>
 
-  <%= render 'vote_panel', locals: {title: 'Table topic speakers',role: 'Table topic speaker',meeting: @meeting} %>
+  <%= render 'vote_panel', locals: {title: 'Table topic speakers',role: 'Table topic speaker',meeting: @meeting, results:@tt_vote_results} %>
 
-  <%= render 'vote_panel', locals: {title: 'Evaluators',role: 'Evaluator',meeting: @meeting} %>
+  <%= render 'vote_panel', locals: {title: 'Evaluators',role: 'Evaluator',meeting: @meeting, results:@eval_vote_results} %>
 
   <div class="panel panel-default">
     <div class="panel-heading">
       <h3 class="panel-title">General Feedback</h3>
     </div>
     <div class="panel-body">
-      <%= text_area_tag 'feedback' %>
+      <%= text_area_tag 'feedback', @general_feedback.note %>
     </div>
   </div>
 
