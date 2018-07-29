@@ -2,9 +2,9 @@
 
 <%= form_with(model: @meeting, :url => {:action => 'vote', :id =>@meeting.id}, :html => {:method => "post"}, local: true) do |form| %>
   
-  <h4>Hello <%= current_member.name %>! <h4>
+  <h3>Hello <%= current_member.name %>! <h3>
 
-  <h3>Meeting date: <%= @meeting.start_date %></h3> 
+  <h4>Meeting date: <%= @meeting.start_date %></h4> 
 
   <p/>
   <%= render 'vote_panel', locals: {title: 'Prepared speakers',role: 'Prepared speaker',meeting: @meeting, results:@prepared_vote_results} %>
@@ -18,7 +18,11 @@
       <h3 class="panel-title">General Feedback</h3>
     </div>
     <div class="panel-body">
-      <%= text_area_tag 'feedback', @general_feedback.note %>
+      <% if @general_feedback %>
+        <%= text_area_tag 'feedback', @general_feedback.note %>
+      <%else%>
+        <%= text_area_tag 'feedback', '' %>
+      <%end%>
     </div>
   </div>
 
