@@ -73,19 +73,18 @@ class MeetingsController < ApplicationController
 
   def save_vote_result(meeting, member, role) 
     @tt_role_player = RolePlayer.find(params[role])
-    @ttvoteResult = VoteResult.where meeting: meeting, member: member, role:@tt_role_player.role
-    if !@ttvoteResult.any?
+    @ttvoteResult = VoteResult.find_by meeting: meeting, member: member, role:@tt_role_player.role
+    if !@ttvoteResult
       @result = VoteResult.new 
       @result.meeting = meeting
       @result.member = member
       @result.vote = 1
       @result.role = @tt_role_player.role
+      @result.speaker = @tt_role_player.member
       @result.save
     else
-      @ttvoteResult.each do |t|
-        t.vote = t.speaker == @tt_role_player.member ? 1 : 0;
-        t.save
-      end
+      @ttvoteResult.speaker =@tt_role_player.member
+      @ttvoteResult.save
     end
   end
 
