@@ -45,7 +45,7 @@
           <ul class="nav navbar-nav">
               <% if member_signed_in? %>
                 <li> 
-                  <a class="nav-link" href="/members/edit">Settings</a> 
+                  <%= link_to('Settings', "/members/"+current_member.id.to_s+"/edit", method: :get, class:"nav-link")         %>
                 </li>
                 <li>
                   <%= link_to('Logout', destroy_member_session_path, method: :delete, class:"nav-link") %>        
