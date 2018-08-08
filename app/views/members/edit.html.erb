@@ -2,5 +2,7 @@
 
 <%= render 'form', member: @member %>
 
-<%= button_to 'Show', @member, :method => 'get', :class => "btn btn-success" %>
-<%= button_to 'Back', members_path, :method => 'get', :class => "btn btn-default" %>
+<% if current_member.member_type_id == MemberType.find_by(name: 'Admin').id %>
+    <%= button_to 'Show', @member, :method => 'get', :class => "btn btn-success" %>
+    <%= button_to 'Back', members_path, :method => 'get', :class => "btn btn-default" %>
+<% end %>

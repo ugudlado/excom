@@ -34,11 +34,14 @@
     <%= form.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.check_box :status, id: :member_status %>
-  </div>
+  <% if current_member.member_type_id == MemberType.find_by(name: 'Admin').id %>
+    <div class="field">
+      <%= form.label :status %>
+      <%= form.check_box :status, id: :status %>
+    </div>
 
+    <%= form.collection_select(:member_type_id, MemberType.order(:name), :id, :name, {}, {:class => 'selectpicker', 'data-live-search' => 'true', 'title' =>"Choose one of the following...", selected: @member.member_type_id }) %>
+  <%end%>
   <div class="actions">
     <%= form.submit %>
   </div>
