@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Clubs</h1>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    
+      <tr>
+        <th>Name</th>
+        <th colspan="2" >Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @clubs.each do |club| %>
+        <tr>
+          <td><%= club.name %></td>
+          <td><%= button_to 'Show', club, :class => "btn btn-success"  %></td>
+          <td><%= button_to 'Edit', edit_club_path(club),:class => "btn btn-primary"  %></td>
+        </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= button_to 'New Club', new_club_path,:method => 'get', :class => "btn btn-primary" %>
+

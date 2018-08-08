@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :clubs
+  
   resources :meetings, :path => '/meetings' do
     member do
       post :vote
