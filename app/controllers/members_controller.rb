@@ -40,8 +40,10 @@ class MembersController < ApplicationController
   # PATCH/PUT /members/1
   # PATCH/PUT /members/1.json
   def update
+    hash = member_params.reject { |k, v| v.blank? }
+    puts(hash)
     respond_to do |format|
-      if @member.update(member_params)
+      if @member.update(hash)
         format.html { redirect_to @member, notice: 'Member was successfully updated.' }
         format.json { render :show, status: :ok, location: @member }
       else
@@ -69,6 +71,6 @@ class MembersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
-      params.require(:member).permit(:name, :email,:status,:password)
+      params.require(:member).permit(:name, :email,:status,:member_type_id,:password)
     end
 end
