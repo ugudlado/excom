@@ -40,8 +40,10 @@ class MembersController < ApplicationController
   # PATCH/PUT /members/1
   # PATCH/PUT /members/1.json
   def update
+    hash = member_params.reject { |k, v| v.blank? }
+    puts(hash)
     respond_to do |format|
-      if @member.update(member_params)
+      if @member.update(hash)
         format.html { redirect_to @member, notice: 'Member was successfully updated.' }
         format.json { render :show, status: :ok, location: @member }
       else
