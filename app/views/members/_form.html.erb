@@ -34,7 +34,7 @@
     <%= form.password_field :password_confirmation, autocomplete: "off" %>
   </div>
 
-  <% if current_member.member_type_id == MemberType.find_by(name: 'Admin').id %>
+  <% if current_member.is_admin? %>
     <div class="field">
       <%= form.label :status %>
       <%= form.check_box :status, id: :status %>

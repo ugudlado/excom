@@ -16,7 +16,8 @@ role_names.each{ |role| Role.create({name: role})}
 
 member_types = [
     'Member',
-    'Admin'
+    'Admin',
+    'Super Admin'
 ]
 
 member_types.each{ |member_type| Member_type.create({name: member_type})}
