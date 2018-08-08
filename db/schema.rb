@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180808122607) do
+ActiveRecord::Schema.define(version: 20180808133656) do
 
   create_table "clubs", force: :cascade do |t|
     t.string "name"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20180808122607) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "status"
+    t.integer "club_id"
+    t.index ["club_id"], name: "index_meetings_on_club_id"
   end
 
   create_table "member_types", force: :cascade do |t|
@@ -43,6 +45,15 @@ ActiveRecord::Schema.define(version: 20180808122607) do
 
 # Could not dump table "members" because of following StandardError
 #   Unknown type 'password' for column 'password'
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer "club_id"
+    t.integer "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["club_id"], name: "index_memberships_on_club_id"
+    t.index ["member_id"], name: "index_memberships_on_member_id"
+  end
 
   create_table "role_players", force: :cascade do |t|
     t.integer "meeting_id"
